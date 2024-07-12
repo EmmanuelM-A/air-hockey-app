@@ -1,0 +1,46 @@
+# Maven target directory
+/target/
+
+# Maven's local repository
+.m2/
+
+# Vs Code settings
+.vscode/
+
+# Java compiled files
+*.class
+
+# Log files
+*.log
+
+# Environment variables
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore built JAR files
+*.jar
+*.war
+*.ear
+
+# Ignore generated files
+generated-sources/
+
+# Ignore local configuration files
+*.local
+
+# Ignore coverage reports
+coverage/
+
+# Ignore temporary files
+*.temp
+*.swp
+*.swo
+*~
+
+# Java files
+
+
+
