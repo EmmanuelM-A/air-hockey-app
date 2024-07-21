@@ -18,10 +18,14 @@ import java.util.Map;
  * STILL IN PROGRESS
  */
 public class ProfanityFilter {
-    static Map<String, String[]> words = new HashMap<>();
-    static int largestWordLength = 0;
+    private Map<String, String[]> words = new HashMap<>();
+    private int largestWordLength = 0;
 
-    public static void loadConfigs() {
+    public ProfanityFilter() {
+        loadConfigs();
+    }
+
+    private void loadConfigs() {
         try {
             URI uri = new URI("https://docs.google.com/spreadsheets/d/1hIEi2YG3ydav1E06Bzf2mQbGZ12kh2fe4ISgLg_UBuM/export?format=csv");
             URL url = uri.toURL();
@@ -29,9 +33,7 @@ public class ProfanityFilter {
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             
             String line = "";
-            int counter = 0;
             while ((line = reader.readLine()) != null) {
-                counter++;
                 String[] content = null;
                 try {
                     content = line.split(",");
@@ -52,9 +54,7 @@ public class ProfanityFilter {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
-            System.out.println("Loaded " + counter + " words to filter out");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e1) {
@@ -68,13 +68,13 @@ public class ProfanityFilter {
      * @param input
      * @return
      */
-    public static boolean containsBadWords(String input) {
+    public boolean containsBadWords(String input) {
         if (input == null) {
             return false;
         }
 
         // don't forget to remove leetspeak, probably want to move this to its own function and use regex if you want to use this
-        input = input.replaceAll("1", "i");
+        /*input = input.replaceAll("1", "i");
         input = input.replaceAll("!", "i");
         input = input.replaceAll("3", "e");
         input = input.replaceAll("4", "a");
@@ -82,9 +82,9 @@ public class ProfanityFilter {
         input = input.replaceAll("5", "s");
         input = input.replaceAll("7", "t");
         input = input.replaceAll("0", "o");
-        input = input.replaceAll("9", "g");
+        input = input.replaceAll("9", "g");*/
 
-        input = input.toLowerCase().replaceAll("[^a-zA-Z]", "");
+        //input = input.toLowerCase().replaceAll("[^a-zA-Z]", "");
 
         // iterate over each letter in the word
         for (int start = 0; start < input.length(); start++) {
@@ -112,7 +112,7 @@ public class ProfanityFilter {
         return false;
     }
 
-    public static String filterText(String input) {
+    public String filterText(String input) {
         if (containsBadWords(input)) {
             return "This message was blocked because a bad word was found. If you believe this word should not be blocked, please message support.";
         }

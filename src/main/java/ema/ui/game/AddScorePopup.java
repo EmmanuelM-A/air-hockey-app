@@ -7,7 +7,9 @@ import ema.database.DatabaseHandler;
 import ema.helper.ProfanityFilter;
 
 public class AddScorePopup {
+    private ProfanityFilter filter;
     public AddScorePopup(int playerScore) {
+        filter = new ProfanityFilter();
         showValidatedInputDialog(playerScore);
     }
 
@@ -44,7 +46,8 @@ public class AddScorePopup {
         if(input.length() > 50) return false;
 
         // Check for inapporiate words
-        ProfanityFilter.containsBadWords(input);
+        if(filter.containsBadWords(input) == false) return false;
+        //if(filter.filterText(input) != null) return false;
 
         return true;
     }

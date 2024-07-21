@@ -108,7 +108,7 @@ public class AIGamePanel implements Restartable {
         this.leftScore = leftScore;
         this.rightScore = rightScore;
         this.topLabel = topLabel;
-        this.countDownTimer = new CountDown(60, topLabel);
+        this.countDownTimer = new CountDown(30, topLabel);
 
         this.outerPanel = new JPanel();
         outerPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
