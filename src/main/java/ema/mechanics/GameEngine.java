@@ -1,19 +1,37 @@
 package ema.mechanics;
 
 public abstract class GameEngine {
-    public void startGame() {
-        loadGame();
-        initObjects();
-        addObjects();
-        runGame();
-    }
+    /**
+     * Initilise the game objects and components.
+     */
+    protected abstract void init();
 
+    /**
+     * Loads the game onto the screen.
+     */
     protected abstract void loadGame();
 
-    protected abstract void initObjects();
+    /** Sets the game settings/mode */
+    protected abstract void setGameSettings();
 
-    protected abstract void addObjects();
+    /**
+     * Starts the game frame timer
+     */
+    protected abstract void startGame();
 
+    /**
+     * Runs game
+     */
     protected abstract void runGame();
+
+    /**
+     * Resets the game
+     */
+    protected abstract void resetGame();
+
+    /**
+     * Ends the game timer
+     */
+    protected abstract void stopGame();
 
 }
