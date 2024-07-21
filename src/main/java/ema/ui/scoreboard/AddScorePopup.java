@@ -1,4 +1,4 @@
-package ema.ui.game;
+package ema.ui.scoreboard;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;

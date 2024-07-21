@@ -1,4 +1,4 @@
-package ema.ui.game;
+package ema.ui.game.singlePlayer;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,14 +6,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import ema.audio.AudioPlayer;
-import ema.components.ButtonsPanel;
-import ema.components.GamePanel;
-import ema.components.GameText;
-import ema.components.Score;
+import ema.components.*;
 import ema.mechanics.GameMode;
 import ema.ui.BaseFrame;
 
-public class TwoPlayerFrame extends BaseFrame {
+public class SinglePlayerFrame extends BaseFrame {
     /**
      * The width of the frame
      */
@@ -28,14 +25,14 @@ public class TwoPlayerFrame extends BaseFrame {
      */
     public static final Color MAIN_COLOUR = Color.BLUE;
 
-    public static TwoPlayerFrame instance;
+    public static SinglePlayerFrame instance;
 
-    private GamePanel gamePanel;
+    private AIGamePanel gamePanel;
 
     /**
      * The frame that holds the game
      */
-    public TwoPlayerFrame() {
+    public SinglePlayerFrame() {
         super.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         super.setLocationRelativeTo(null);
         super.setResizable(false);
@@ -60,14 +57,14 @@ public class TwoPlayerFrame extends BaseFrame {
         add(rightScore.getLabel(), gbc);
 
         // Create and add the top label
-        GameText topLabel = new GameText("Welcome!");
+        GameText topLabel = new GameText("Welcome challenger!");
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.SOUTH;
         add(topLabel.getLabel(), gbc);
 
         // Create and add the game panel depending on the game mode selected
-        gamePanel = new GamePanel(leftScore, rightScore, topLabel);
+        gamePanel = new AIGamePanel(leftScore, rightScore, topLabel);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -76,8 +73,7 @@ public class TwoPlayerFrame extends BaseFrame {
         add(gamePanel.getOuterPanel(), gbc);
 
         // Create and add the game buttons to the bottom panel 
-        ButtonsPanel.instance = new ButtonsPanel(this, gamePanel.getOuterPanel(), GameMode.TWOPLAYER);
-        ButtonsPanel.instance.getButtonsPanel().setBackground(MAIN_COLOUR);
+        ButtonsPanel.instance = new ButtonsPanel(this, gamePanel.getOuterPanel(), GameMode.SINGLEPLAYER);
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.NORTH;
@@ -89,5 +85,11 @@ public class TwoPlayerFrame extends BaseFrame {
         AudioPlayer.play("game-start.wav");
 
         instance = this;
+    }
+
+    @Override
+    public void switchFrame(BaseFrame newFrame) {
+        gamePanel.stopGame();
+        super.switchFrame(newFrame);
     }
 }

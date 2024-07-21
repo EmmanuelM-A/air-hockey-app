@@ -11,8 +11,8 @@ import ema.audio.AudioPlayer;
 import ema.mechanics.AIPaddleControls;
 import ema.mechanics.Difficulty;
 import ema.mechanics.Restartable;
+import ema.ui.scoreboard.AddScorePopup;
 import ema.mechanics.PaddleControls;
-import ema.ui.game.AddScorePopup;
 
 public class AIGamePanel implements Restartable {
     /**
