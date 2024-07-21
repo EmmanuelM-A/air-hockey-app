@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import ema.actions.GoToScoreboardAction;
 import ema.actions.StartSinglePlayerAction;
 import ema.actions.StartTwoPlayerAction;
+import ema.ui.MenuButtons;
 
 public class HomeMenuPanel extends JPanel {
     private JLabel title, version, developedBy;

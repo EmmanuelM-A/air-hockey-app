@@ -1,4 +1,4 @@
-package ema.ui.home;
+package ema.ui;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;

@@ -10,11 +10,11 @@ import javax.swing.*;
 import ema.audio.AudioPlayer;
 import ema.mechanics.AIPaddleControls;
 import ema.mechanics.Difficulty;
-import ema.mechanics.IRestart;
+import ema.mechanics.Restartable;
 import ema.mechanics.PaddleControls;
 import ema.ui.game.AddScorePopup;
 
-public class AIGamePanel implements IRestart {
+public class AIGamePanel implements Restartable {
     /**
      * The width of the outer panel.
      */

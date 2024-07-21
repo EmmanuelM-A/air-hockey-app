@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
 import ema.actions.GoToHomeAction;
 import ema.database.DatabaseHandler;
 import ema.ui.BaseFrame;
-import ema.ui.home.MenuButtons;
+import ema.ui.MenuButtons;
 
 public class ScoreboardPanel extends JPanel {    
     public ScoreboardPanel(BaseFrame frame) {

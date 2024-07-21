@@ -1,5 +1,5 @@
 package ema.mechanics;
 
-public interface IRestart {
+public interface Restartable {
     public void restart();
 }

@@ -8,13 +8,13 @@ import java.util.Set;
 import javax.swing.*;
 
 import ema.audio.AudioPlayer;
-import ema.mechanics.IRestart;
+import ema.mechanics.Restartable;
 import ema.mechanics.PaddleControls;
 
 /**
  * This class reperesents the entire air hockey board and all its components.
  */
-public class GamePanel implements IRestart {
+public class GamePanel implements Restartable {
     /**
      * The width of the outer panel.
      */
