@@ -56,6 +56,8 @@ public class TwoPlayerGame extends GameEngine {
         this.topLabel = topLabel;
 
         runGame();
+
+        instance = this;
     }
 
     public JPanel getOuterPanel() {
@@ -117,9 +119,6 @@ public class TwoPlayerGame extends GameEngine {
             new int[]{WIDTH / 2, WIDTH, 0, HEIGHT},
             "Player two"
         );
-        this.leftScore = new Score(0);
-        this.rightScore = new Score(0);
-        this.topLabel = new GameText("Welcome Players");
 
         // Initialise game helper variables
         this.hasEndAudioPlayed = false;

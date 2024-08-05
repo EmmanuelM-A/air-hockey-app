@@ -3,8 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ema.components.AIGamePanel;
-import ema.components.GamePanel;
 import ema.mechanics.GameMode;
+import ema.ui.game.twoPlayer.TwoPlayerGame;
 
 public class RestartGameAction implements ActionListener {
     private GameMode mode;
@@ -18,7 +18,7 @@ public class RestartGameAction implements ActionListener {
         if(mode == GameMode.SINGLEPLAYER) {
             AIGamePanel.instance.restart();
         } else if(mode == GameMode.TWOPLAYER) {
-            GamePanel.instance.restart();
+            TwoPlayerGame.instance.restart();
         }
     }
 }

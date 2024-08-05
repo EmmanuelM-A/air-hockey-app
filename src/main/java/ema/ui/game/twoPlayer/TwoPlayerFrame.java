@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 
 import ema.audio.AudioPlayer;
 import ema.components.ButtonsPanel;
-import ema.components.GamePanel;
 import ema.components.GameText;
 import ema.components.Score;
 import ema.mechanics.GameMode;
@@ -33,7 +32,9 @@ public class TwoPlayerFrame extends BaseFrame {
      */
     public static TwoPlayerFrame instance;
 
-
+    /**
+     * The two player game
+     */
     private TwoPlayerGame twoPlayer;
 
     /**
@@ -43,7 +44,7 @@ public class TwoPlayerFrame extends BaseFrame {
         super.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         super.setLocationRelativeTo(null);
         super.setResizable(false);
-        super.getContentPane().setBackground(MAIN_COLOUR);
+        super.getContentPane().setBackground(Color.BLUE);
         super.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -93,5 +94,9 @@ public class TwoPlayerFrame extends BaseFrame {
         AudioPlayer.play("game-start.wav");
 
         instance = this;
+    }
+
+    public TwoPlayerGame getTwoPlayerGame() {
+        return this.twoPlayer;
     }
 }
