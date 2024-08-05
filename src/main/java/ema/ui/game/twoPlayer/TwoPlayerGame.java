@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import ema.audio.AudioPlayer;
@@ -15,7 +16,7 @@ import ema.components.Paddle;
 import ema.components.Puck;
 import ema.components.Score;
 import ema.mechanics.GameEngine;
-import ema.ui.scoreboard.AddScorePopup;
+import ema.mechanics.PaddleControls;
 
 public class TwoPlayerGame extends GameEngine {
     private final int PANEL_WIDTH = 1000;
@@ -28,8 +29,6 @@ public class TwoPlayerGame extends GameEngine {
     private final int HEIGHT = 520;
 
     private boolean hasEndAudioPlayed;
-
-    private int centralDiameter;
 
     private JPanel outerPanel;
 
@@ -49,12 +48,42 @@ public class TwoPlayerGame extends GameEngine {
 
     public static TwoPlayerGame instance;
 
-    private boolean hasScoreDialogShown;
-
     private Timer gameLoop;
 
-    public TwoPlayerGame() {
+    public TwoPlayerGame(Score leftScore, Score rightScore, GameText topLabel) {
+        this.leftScore = leftScore;
+        this.rightScore = rightScore;
+        this.topLabel = topLabel;
 
+        runGame();
+    }
+
+    public JPanel getOuterPanel() {
+        return this.outerPanel;
+    }
+
+    public JPanel getInnerPanel() {
+        return this.innerPanel;
+    }
+
+    public Paddle getleftPaddle() {
+        return this.leftPaddle;
+    }
+
+    public Paddle getrightPaddle() {
+        return this.rightPaddle;
+    }
+
+    public Puck getPuck() {
+        return this.puck;
+    }
+
+    public Goal getLeftGoal() {
+        return this.leftGoal;
+    }
+
+    public Goal getRightGoal() {
+        return this.rightGoal;
     }
 
     @Override
@@ -95,8 +124,6 @@ public class TwoPlayerGame extends GameEngine {
         // Initialise game helper variables
         this.hasEndAudioPlayed = false;
         this.pressedKeys = new HashSet<>();
-        this.centralDiameter = 150;
-        this.hasScoreDialogShown = false;
     }
 
     @Override
@@ -135,7 +162,9 @@ public class TwoPlayerGame extends GameEngine {
     }
 
     @Override
-    protected void setGameSettings() {}
+    protected void setGameSettings() {
+        // Allow players to change the winning points
+    }
 
     @Override
     protected void startGame() {
@@ -145,48 +174,18 @@ public class TwoPlayerGame extends GameEngine {
     }
 
     @Override
-    protected void resetGame() {}
-
-    @Override
-    protected void stopGame() {}
-
-    @Override
-    protected void runGame() {
-        init();
-        loadGame();
-        setGameSettings();
-        startGame();
-    }
-
-    private void handleGoals() {
-        if(puck.goalDetected(leftGoal)) {
-            if(leftGoal.getIsGoal() == false) {
-                //topLabel.getLabel().setText(playerPaddle.getName() + " scored a goal!");
-                rightScore.incrementScore();
-                leftGoal.setIsGoal(true);
-                nextRound();
-                AudioPlayer.play("goal-sound.wav");
-            }
-        } else if(puck.goalDetected(rightGoal)) {
-            if(rightGoal.getIsGoal() == false) {
-                //topLabel.getLabel().setText(aiPaddle.getName() + " scored a goal!");
-                leftScore.incrementScore();
-                rightGoal.setIsGoal(true);
-                nextRound();
-                AudioPlayer.play("goal-sound.wav");
-            }
-        }
-    }
-
-    private void nextRound() {
+    protected void resetGame() {
         // If left player scored, position the puck on the right side next round
-        if((leftGoal.getIsGoal() == false && rightGoal.getIsGoal() == true) || (leftGoal.getIsGoal() == true && rightGoal.getIsGoal() == false)) {
-            puck.setLocation(new Point((WIDTH - Puck.DIAMETER) / 2, (HEIGHT / 2) - 20));
+        if(leftGoal.getIsGoal() == false && rightGoal.getIsGoal() == true) {
+            puck.setLocation(new Point(((WIDTH - Puck.DIAMETER) / 2) + 75, (HEIGHT / 2) - 20));
+        } else
+        // If right player scored, position the puck on the left side next round
+        if(leftGoal.getIsGoal() == true && rightGoal.getIsGoal() == false) {
+            puck.setLocation(new Point(((WIDTH - Puck.DIAMETER) / 2) - 75, (HEIGHT / 2) - 20));
         }
-
         // Reset the location of the paddles
-        aiPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) / 6, (HEIGHT - Paddle.DIAMETER) / 2));
-        playerPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) *  5/6, (HEIGHT - Paddle.DIAMETER) / 2));
+        leftPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) / 6, (HEIGHT - Paddle.DIAMETER) / 2));
+        rightPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) *  5/6, (HEIGHT - Paddle.DIAMETER) / 2));
 
         // Reset the velocity of the puck to zero
         puck.setXVelocity(0.0);
@@ -197,10 +196,89 @@ public class TwoPlayerGame extends GameEngine {
         rightGoal.setIsGoal(false);
     }
 
+    @Override
+    protected void stopGame() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+    }
+
+    @Override
+    protected void runGameLoop() {
+        gameLoop = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        PaddleControls.movePaddle(leftPaddle, pressedKeys, innerPanel);
+                        PaddleControls.movePaddle(rightPaddle, pressedKeys, innerPanel);
+        
+                        puck.handleCollsions(leftPaddle);
+                        puck.handleCollsions(rightPaddle);
+        
+                        puck.handleWallCollisions(WIDTH, 0, HEIGHT, 0);
+        
+                        puck.move();
+        
+                        handleGoals();
+        
+                        puck.setXVelocity(puck.getXVelocity() - (puck.getXVelocity() * friction));
+                        puck.setYVelocity(puck.getYVelocity() - (puck.getYVelocity() * friction));
+        
+                        handleWin();
+        
+                        innerPanel.repaint();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void runGame() {
+        init();
+        loadGame();
+        setGameSettings();
+        runGameLoop();
+        startGame();
+    }
+
+    private void handleGoals() {
+        if(puck.goalDetected(leftGoal)) {
+            if(leftGoal.getIsGoal() == false) {
+                topLabel.getLabel().setText(rightPaddle.getName() + " scored a goal!");
+                rightScore.incrementScore();
+                leftGoal.setIsGoal(true);
+                resetGame();
+                AudioPlayer.play("goal-sound.wav");
+            }
+        } else if(puck.goalDetected(rightGoal)) {
+            if(rightGoal.getIsGoal() == false) {
+                topLabel.getLabel().setText(leftPaddle.getName() + " scored a goal!");
+                leftScore.incrementScore();
+                rightGoal.setIsGoal(true);
+                resetGame();
+                AudioPlayer.play("goal-sound.wav");
+            }
+        }
+    }
+
     private void handlePlayerWin() {
+        // Display winning message
+        if(leftScore.getScore() == rightScore.getScore()) {
+            topLabel.getLabel().setText("Draw");
+        } else
+        if(leftScore.getScore() == winningPoints) {
+            topLabel.getLabel().setText(leftPaddle.getName() + " Wins!");
+        } else
+        if(rightScore.getScore() == winningPoints) {
+            topLabel.getLabel().setText(rightPaddle.getName() + " Wins!");
+        }
+
         // Disable paddle movemenets
-        aiPaddle.setIsPaddleDisabled(true);
-        playerPaddle.setIsPaddleDisabled(true);
+        leftPaddle.setIsPaddleDisabled(true);
+        rightPaddle.setIsPaddleDisabled(true);
 
         // Play winning audio file after a delay
         if(hasEndAudioPlayed == false) {
@@ -214,27 +292,16 @@ public class TwoPlayerGame extends GameEngine {
             );
             hasEndAudioPlayed = true;
         }
-
-        // Display winning message
-        if(leftScore.getScore() == rightScore.getScore()) {
-            topLabel.getLabel().setText("Draw");
-        } else
-        if(leftScore.getScore() > rightScore.getScore()) {
-            topLabel.getLabel().setText(aiPaddle.getName() + " Wins! Better luck next time");
-        } else  if (rightScore.getScore() > leftScore.getScore() && hasPopupShown == false){
-            hasPopupShown = true;
-            topLabel.getLabel().setText(playerPaddle.getName() + " Wins!");
-
-            // Display insert score box
-            new AddScorePopup(rightScore.getScore());
-        }
     }
 
     private void handleWin() {
-        if(countDownTimer.getTimeRemaining() == 0) {
+        if(leftScore.getScore() == winningPoints) {
             handlePlayerWin();
-            stopGame();
         }
+        if(rightScore.getScore() == winningPoints) {
+            handlePlayerWin();
+        }
+
     }
 
     private void drawObjects(Graphics g) {
@@ -258,23 +325,23 @@ public class TwoPlayerGame extends GameEngine {
         rightGoal.draw(g);
 
         // Draws the Paddles
-        aiPaddle.draw(g);
-        playerPaddle.draw(g);
+        leftPaddle.draw(g);
+        rightPaddle.draw(g);
     }
 
     @Override
     public void restart() {
         // Reset object locations
-        aiPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) / 6, (HEIGHT - Paddle.DIAMETER) / 2));
-        playerPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) *  5/6, (HEIGHT - Paddle.DIAMETER) / 2));
+        leftPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) / 6, (HEIGHT - Paddle.DIAMETER) / 2));
+        rightPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) *  5/6, (HEIGHT - Paddle.DIAMETER) / 2));
         puck.setLocation(new Point((WIDTH - Puck.DIAMETER) / 2, (HEIGHT / 2) - 20));
 
         // Reset object velocities and default values
         puck.setXVelocity(0.0);
         puck.setYVelocity(0.0);
 
-        aiPaddle.setIsPaddleDisabled(false);
-        playerPaddle.setIsPaddleDisabled(false);
+        leftPaddle.setIsPaddleDisabled(false);
+        rightPaddle.setIsPaddleDisabled(false);
 
         hasEndAudioPlayed = false;
 
@@ -282,20 +349,12 @@ public class TwoPlayerGame extends GameEngine {
         leftScore.setScore(0);
         rightScore.setScore(0);
 
-        topLabel.getLabel().setText("Welcome challenger!");
+        topLabel.getLabel().setText("");
 
         // Request focus to ensure key events are captured
         outerPanel.requestFocusInWindow();
 
-        hasPopupShown = false;
-
         // Play game start audio
         AudioPlayer.play("game-start.wav");
-
-        // Start count down timer
-        countDownTimer.restartCountDown();
-
-        startGame();
-    }
-    
+    }    
 }

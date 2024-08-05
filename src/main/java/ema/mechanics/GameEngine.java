@@ -14,6 +14,8 @@ public abstract class GameEngine implements Restartable{
     /** Sets the game settings/mode */
     protected abstract void setGameSettings();
 
+    protected abstract void runGameLoop();
+
     /**
      * Starts the game frame timer
      */

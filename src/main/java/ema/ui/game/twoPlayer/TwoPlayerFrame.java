@@ -28,9 +28,13 @@ public class TwoPlayerFrame extends BaseFrame {
      */
     public static final Color MAIN_COLOUR = Color.BLUE;
 
+    /**
+     * An instance of the TwoPlayerFrame.
+     */
     public static TwoPlayerFrame instance;
 
-    private GamePanel gamePanel;
+
+    private TwoPlayerGame twoPlayer;
 
     /**
      * The frame that holds the game
@@ -67,16 +71,16 @@ public class TwoPlayerFrame extends BaseFrame {
         add(topLabel.getLabel(), gbc);
 
         // Create and add the game panel depending on the game mode selected
-        gamePanel = new GamePanel(leftScore, rightScore, topLabel);
+        twoPlayer = new TwoPlayerGame(leftScore, rightScore, topLabel);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        add(gamePanel.getOuterPanel(), gbc);
+        add(twoPlayer.getOuterPanel(), gbc);
 
         // Create and add the game buttons to the bottom panel 
-        ButtonsPanel.instance = new ButtonsPanel(this, gamePanel.getOuterPanel(), GameMode.TWOPLAYER);
+        ButtonsPanel.instance = new ButtonsPanel(this, twoPlayer.getOuterPanel(), GameMode.TWOPLAYER);
         ButtonsPanel.instance.getButtonsPanel().setBackground(MAIN_COLOUR);
         gbc.gridx = 1;
         gbc.gridy = 2;
