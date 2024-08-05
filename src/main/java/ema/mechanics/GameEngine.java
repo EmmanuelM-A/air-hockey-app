@@ -11,29 +11,34 @@ public abstract class GameEngine implements Restartable{
      */
     protected abstract void loadGame();
 
-    /** Sets the game settings/mode */
-    protected abstract void setGameSettings();
+    /** 
+     * Sets the game settings/mode. 
+     */
+    public abstract void setGameSettings();
 
+    /**
+     * Runs the game frame loop..
+     */
     protected abstract void runGameLoop();
 
     /**
-     * Starts the game frame timer
+     * Starts the game frame timer.
      */
     protected abstract void startGame();
 
     /**
-     * Runs game
+     * Runs the game.
      */
     protected abstract void runGame();
 
     /**
-     * Resets the game
+     * Resets the game.
      */
     protected abstract void resetGame();
 
     /**
-     * Ends the game timer
+     * Ends the game timer.
      */
-    protected abstract void stopGame();
+    public abstract void stopGame();
 
 }

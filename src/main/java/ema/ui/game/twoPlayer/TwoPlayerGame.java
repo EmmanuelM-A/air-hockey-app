@@ -89,7 +89,7 @@ public class TwoPlayerGame extends GameEngine {
     }
 
     @Override
-    protected void init() {
+    public void init() {
         // Default values
         this.friction = 0.005;
         this.winningPoints = 8;
@@ -126,11 +126,11 @@ public class TwoPlayerGame extends GameEngine {
     }
 
     @Override
-    protected void loadGame() {
+    public void loadGame() {
         // Add game components to inner panel
         this.innerPanel = new JPanel(null) {
             @Override
-            protected void paintComponent(Graphics g) {
+            public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 drawObjects(g);
             }
@@ -161,19 +161,19 @@ public class TwoPlayerGame extends GameEngine {
     }
 
     @Override
-    protected void setGameSettings() {
+    public void setGameSettings() {
         // Allow players to change the winning points
     }
 
     @Override
-    protected void startGame() {
+    public void startGame() {
         if(gameLoop != null) {
             gameLoop.start();
         }
     }
 
     @Override
-    protected void resetGame() {
+    public void resetGame() {
         // If left player scored, position the puck on the right side next round
         if(leftGoal.getIsGoal() == false && rightGoal.getIsGoal() == true) {
             puck.setLocation(new Point(((WIDTH - Puck.DIAMETER) / 2) + 75, (HEIGHT / 2) - 20));
@@ -196,14 +196,14 @@ public class TwoPlayerGame extends GameEngine {
     }
 
     @Override
-    protected void stopGame() {
+    public void stopGame() {
         if (gameLoop != null) {
             gameLoop.stop();
         }
     }
 
     @Override
-    protected void runGameLoop() {
+    public void runGameLoop() {
         gameLoop = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,7 +235,7 @@ public class TwoPlayerGame extends GameEngine {
     }
 
     @Override
-    protected void runGame() {
+    public void runGame() {
         init();
         loadGame();
         setGameSettings();
