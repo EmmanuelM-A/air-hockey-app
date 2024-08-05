@@ -17,7 +17,7 @@ public abstract class GameEngine implements Restartable{
     public abstract void setGameSettings();
 
     /**
-     * Runs the game frame loop..
+     * Runs the game frame loop.
      */
     protected abstract void runGameLoop();
 

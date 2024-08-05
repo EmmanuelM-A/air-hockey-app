@@ -71,7 +71,7 @@ public class TwoPlayerFrame extends BaseFrame {
         gbc.anchor = GridBagConstraints.SOUTH;
         add(topLabel.getLabel(), gbc);
 
-        // Create and add the game panel depending on the game mode selected
+        // Create and add the two player game panel
         twoPlayer = new TwoPlayerGame(leftScore, rightScore, topLabel);
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -94,9 +94,5 @@ public class TwoPlayerFrame extends BaseFrame {
         AudioPlayer.play("game-start.wav");
 
         instance = this;
-    }
-
-    public TwoPlayerGame getTwoPlayerGame() {
-        return this.twoPlayer;
     }
 }

@@ -19,14 +19,15 @@ import ema.mechanics.GameEngine;
 import ema.mechanics.PaddleControls;
 
 public class TwoPlayerGame extends GameEngine {
-    private final int PANEL_WIDTH = 1000;
-    private final int PANEL_HEIGHT = 600;
+    private static final int PANEL_WIDTH = 1000;
+    private static final int PANEL_HEIGHT = 600;
     
-    private double friction;
+    private double FRICTION = 0.005;
+
     private int winningPoints;
 
-    private final int WIDTH = 920;
-    private final int HEIGHT = 520;
+    private static final int WIDTH = 920;
+    private static final int HEIGHT = 520;
 
     private boolean hasEndAudioPlayed;
 
@@ -91,7 +92,6 @@ public class TwoPlayerGame extends GameEngine {
     @Override
     public void init() {
         // Default values
-        this.friction = 0.005;
         this.winningPoints = 8;
 
         // Initialise the border panel
@@ -99,9 +99,6 @@ public class TwoPlayerGame extends GameEngine {
         outerPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         outerPanel.setBackground(Color.BLACK);
         outerPanel.setLayout(new GridBagLayout());
-
-        // Initialise the game panel
-        this.innerPanel = new JPanel();
 
         // Initialise game components
         this.puck = new Puck(new Point((WIDTH - Puck.DIAMETER) / 2, (HEIGHT / 2) - 20));
@@ -222,8 +219,8 @@ public class TwoPlayerGame extends GameEngine {
         
                         handleGoals();
         
-                        puck.setXVelocity(puck.getXVelocity() - (puck.getXVelocity() * friction));
-                        puck.setYVelocity(puck.getYVelocity() - (puck.getYVelocity() * friction));
+                        puck.setXVelocity(puck.getXVelocity() - (puck.getXVelocity() * FRICTION));
+                        puck.setYVelocity(puck.getYVelocity() - (puck.getYVelocity() * FRICTION));
         
                         handleWin();
         

@@ -27,7 +27,7 @@ public class SinglePlayerFrame extends BaseFrame {
 
     public static SinglePlayerFrame instance;
 
-    private AIGamePanel gamePanel;
+    private SinglePlayerGame singlePlayer;
 
     /**
      * The frame that holds the game
@@ -63,17 +63,17 @@ public class SinglePlayerFrame extends BaseFrame {
         gbc.anchor = GridBagConstraints.SOUTH;
         add(topLabel.getLabel(), gbc);
 
-        // Create and add the game panel depending on the game mode selected
-        gamePanel = new AIGamePanel(leftScore, rightScore, topLabel);
+        // Create and add the single player game panel
+        singlePlayer = new SinglePlayerGame(leftScore, rightScore, topLabel);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        add(gamePanel.getOuterPanel(), gbc);
+        add(singlePlayer.getOuterPanel(), gbc);
 
         // Create and add the game buttons to the bottom panel 
-        ButtonsPanel.instance = new ButtonsPanel(this, gamePanel.getOuterPanel(), GameMode.SINGLEPLAYER);
+        ButtonsPanel.instance = new ButtonsPanel(this, singlePlayer.getOuterPanel(), GameMode.SINGLEPLAYER);
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.NORTH;
@@ -85,11 +85,5 @@ public class SinglePlayerFrame extends BaseFrame {
         AudioPlayer.play("game-start.wav");
 
         instance = this;
-    }
-
-    @Override
-    public void switchFrame(BaseFrame newFrame) {
-        gamePanel.stopGame();
-        super.switchFrame(newFrame);
     }
 }

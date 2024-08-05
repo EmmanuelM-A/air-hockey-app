@@ -5,9 +5,9 @@ import java.awt.Point;
 import javax.swing.JPanel;
 
 import ema.components.AIPaddle;
-import ema.components.GamePanel;
 import ema.components.Paddle;
 import ema.components.Puck;
+import ema.ui.game.singlePlayer.SinglePlayerGame;
 
 public class AIPaddleControls {
     public static void movePaddle(AIPaddle paddle, JPanel playableArea) {
@@ -23,7 +23,7 @@ public class AIPaddleControls {
             int puckY = puckLocation.y;
 
             // Determine if the puck is on the AI's side of the table
-            boolean isPuckOnAISide = puckX < (GamePanel.PANEL_WIDTH / 2);
+            boolean isPuckOnAISide = puckX < (SinglePlayerGame.PANEL_WIDTH / 2);
 
             if (isPuckOnAISide) {
                 if (Puck.instance.isStationary()) {
@@ -72,8 +72,8 @@ public class AIPaddleControls {
         // Adjust for puck bouncing off the top and bottom edges
         if (predictedY < 0) {
             predictedY = -predictedY;
-        } else if (predictedY >GamePanel.PANEL_HEIGHT) {
-            predictedY = GamePanel.PANEL_HEIGHT - (predictedY - GamePanel.PANEL_HEIGHT);
+        } else if (predictedY > SinglePlayerGame.PANEL_HEIGHT) {
+            predictedY = SinglePlayerGame.PANEL_HEIGHT - (predictedY - SinglePlayerGame.PANEL_HEIGHT);
         }
 
         return new Point(paddle.getLocation().x, predictedY);
