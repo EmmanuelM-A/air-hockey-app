@@ -1,6 +1,6 @@
 package ema.mechanics;
 
-public abstract class GameEngine {
+public abstract class GameEngine implements Restartable{
     /**
      * Initilise the game objects and components.
      */
