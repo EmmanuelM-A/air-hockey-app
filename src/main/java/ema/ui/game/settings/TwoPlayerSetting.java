@@ -33,13 +33,18 @@ public class TwoPlayerSetting {
 
     public TwoPlayerSetting(JFrame homeFrame) {
         this.dialog = new JDialog(homeFrame, "Two Player Settings", true);
-        this.points = new JSlider(1, 15);
+        this.points = new JSlider(1, 15, 8);
         this.pointsHeader = createLabel("Select the number of points to win:");
         this.buttonsPanel = new JPanel(new FlowLayout());
         this.cancelBtn = createButton("Cancel");
         this.defaultBtn = createButton("Default");
         this.applyBtn = createButton("Apply");
         this.winningPoints = 8;
+
+        // Dialog Box
+        dialog.setLocationRelativeTo(homeFrame);
+        dialog.setPreferredSize(new Dimension(300, 200));
+        dialog.setLayout(new BorderLayout());
 
         // Points selection
         points.setBackground(MAIN_COLOUR);
@@ -56,11 +61,7 @@ public class TwoPlayerSetting {
         buttonsPanel.add(defaultBtn);
         buttonsPanel.add(applyBtn);
 
-        // dialog Box
-        dialog.setLocationRelativeTo(homeFrame);
-        dialog.setPreferredSize(new Dimension(300, 200));
-        dialog.setLayout(new BorderLayout());
-
+        // Add components to the dialog box
         dialog.add(pointsHeader, BorderLayout.NORTH);
         dialog.add(points, BorderLayout.CENTER);
         dialog.add(buttonsPanel, BorderLayout.SOUTH);

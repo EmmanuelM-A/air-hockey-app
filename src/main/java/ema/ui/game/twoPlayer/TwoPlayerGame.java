@@ -158,7 +158,7 @@ public class TwoPlayerGame extends GameEngine {
     @Override
     public void setGameSettings() {
         this.winningPoints = TwoPlayerSetting.instance.getWinningPoints();
-        System.out.println("Winning points: " + winningPoints);
+        //System.out.println("Winning points: " + winningPoints);
     }
 
     @Override
