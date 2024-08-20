@@ -13,6 +13,7 @@ import ema.mechanics.AIPaddleControls;
 import ema.mechanics.Difficulty;
 import ema.mechanics.GameEngine;
 import ema.mechanics.PaddleControls;
+import ema.ui.game.settings.SinglePlayerSettings;
 import ema.ui.scoreboard.AddScorePopup;
 
 public class SinglePlayerGame extends GameEngine {
@@ -91,14 +92,18 @@ public class SinglePlayerGame extends GameEngine {
      */
     private Score leftScore, rightScore;
 
-    /**
-     * An instance of the GamePanel
-     */
-    public static SinglePlayerGame instance;
+    private Difficulty aiDifficulty;
+
+    private int countDown;
 
     private boolean hasAddScoreShown = false;
 
     private Timer gameLoop;
+
+    /**
+     * An instance of the GamePanel
+     */
+    public static SinglePlayerGame instance;
 
     public SinglePlayerGame(Score leftScore, Score rightScore, final GameText topLabel) {
         this.leftScore = leftScore;
@@ -286,8 +291,7 @@ public class SinglePlayerGame extends GameEngine {
             new Point((WIDTH - Paddle.DIAMETER) / 6, (HEIGHT - Paddle.DIAMETER) / 2), 
             null,
             new int[]{0, WIDTH / 2, 0, HEIGHT},
-            "MegaBot",
-            Difficulty.NORMAL
+            "MegaBot"
         );
         playerPaddle = new Paddle(
             new Point((WIDTH - Paddle.DIAMETER) *  5/6, (HEIGHT - Paddle.DIAMETER) / 2),
@@ -351,7 +355,10 @@ public class SinglePlayerGame extends GameEngine {
 
     @Override
     public void setGameSettings() {
-        // Allow player to change ai difficulty and count down timer
+        this.aiDifficulty = SinglePlayerSettings.instance.getDiffLevel();
+        this.countDown = SinglePlayerSettings.instance.getCountDown();
+        countDownTimer.setTime(countDown);
+        aiPaddle.setDifficulty(aiDifficulty);
     }
 
     @Override
@@ -362,7 +369,7 @@ public class SinglePlayerGame extends GameEngine {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        AIPaddleControls.movePaddle(aiPaddle, innerPanel);
+                        AIPaddleControls.movePaddle(aiPaddle, innerPanel, aiDifficulty.getSpeedMultiplier());
         
                         puck.handleCollsions(aiPaddle);
                         puck.handleCollsions(playerPaddle);
@@ -395,8 +402,8 @@ public class SinglePlayerGame extends GameEngine {
     @Override
     protected void runGame() {
         init();
-        loadGame();
         setGameSettings();
+        loadGame();
         runGameLoop();
         startGame();
     }

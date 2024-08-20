@@ -7,7 +7,7 @@ import javax.swing.Timer;
 
 public class CountDown implements Runnable {
     private Timer timer;
-    private final int initialSeconds;
+    private int initialSeconds;
     private int timeRemaining;
     private String formattedTime;
     private GameText label;
@@ -45,6 +45,11 @@ public class CountDown implements Runnable {
 
     public int getTimeRemaining() {
         return this.timeRemaining;
+    }
+
+    public void setTime(int newTime) {
+        this.initialSeconds = newTime;
+        this.timeRemaining = newTime;
     }
 
     public String getFormattedTime() {

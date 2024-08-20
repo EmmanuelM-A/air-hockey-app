@@ -18,10 +18,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ema.mechanics.Difficulty;
 import ema.ui.game.singlePlayer.SinglePlayerFrame;
-import ema.ui.game.twoPlayer.TwoPlayerFrame;
 import ema.ui.home.HomeMenuFrame;
 
 public class SinglePlayerSettings {
@@ -34,6 +35,8 @@ public class SinglePlayerSettings {
     private JLabel countDownHeader;
 
     private JSlider countDownSelection;
+
+    private JLabel selectedCountDown;
 
     private JPanel buttonsPanel;
 
@@ -49,6 +52,8 @@ public class SinglePlayerSettings {
 
     private int countDown;
 
+    private final int DEFAULT_COUNTDOWN = 120;
+
     private final Color MAIN_COLOUR = new Color(173, 216, 230);
 
     public static SinglePlayerSettings instance;
@@ -57,18 +62,19 @@ public class SinglePlayerSettings {
         this.dialog = new JDialog(homeFrame, "Single Player Game Settings");
         this.diffHeader = createLabel("Choose MegaBot's difficulty:");
         this.diffLevels = new JComboBox<>(diffSelection);
-        this.countDownHeader = createLabel("Select a timer:");
-        this.countDownSelection = new JSlider(60, 300, 60);
+        this.countDownHeader = createLabel("Select the count down timer:");
+        this.countDownSelection = new JSlider(60, 300, DEFAULT_COUNTDOWN);
+        this.selectedCountDown = createLabel(formatTime(DEFAULT_COUNTDOWN));
         this.buttonsPanel = new JPanel(new FlowLayout());
         this.cancelBtn = createButton("Cancel");
         this.defaultBtn = createButton("Default");
         this.applyBtn = createButton("Apply");
         this.diffLevel = Difficulty.NORMAL;
-        this.countDown = countDownSelection.getValue();
+        this.countDown = DEFAULT_COUNTDOWN;
 
         // Dialog Box
         dialog.setLocationRelativeTo(homeFrame);
-        dialog.setPreferredSize(new Dimension(350, 300));
+        dialog.setPreferredSize(new Dimension(370, 250));
         dialog.setLayout(new GridBagLayout());
         dialog.getContentPane().setBackground(MAIN_COLOUR);
 
@@ -84,7 +90,16 @@ public class SinglePlayerSettings {
         countDownSelection.setPaintTicks(true);
         countDownSelection.setPaintLabels(true);
         countDownSelection.setMajorTickSpacing(60);
-        countDownSelection.setMinorTickSpacing(6);
+        countDownSelection.setMinorTickSpacing(10);
+
+        // Update selected count down label whenever slider changes
+        countDownSelection.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int value = countDownSelection.getValue();
+                selectedCountDown.setText(formatTime(value));
+            }
+        });
         
         // Buttons
         buttonsPanel.setBackground(MAIN_COLOUR);
@@ -113,10 +128,18 @@ public class SinglePlayerSettings {
         // Countdown header label
         c.gridx = 0;
         c.gridy = 1;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.insets = new Insets(10, 10, 5, 10);
         c.anchor = GridBagConstraints.LINE_START;
         dialog.add(countDownHeader, c);
+
+        // Selected Countdown display label
+        c.gridx = 2;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.insets = new Insets(10, 10, 5, 10);
+        c.anchor = GridBagConstraints.LINE_END;
+        dialog.add(selectedCountDown, c);
 
         // Countdown slider
         c.gridx = 0;
@@ -146,17 +169,21 @@ public class SinglePlayerSettings {
         defaultBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Default difficulty
                 diffLevels.setSelectedIndex(1);
-                countDownSelection.setValue(1);
-
-                countDown = 1;
+                diffLevel = Difficulty.NORMAL;
+                // Default Countdown
+                countDownSelection.setValue(DEFAULT_COUNTDOWN);
+                selectedCountDown.setText(formatTime(DEFAULT_COUNTDOWN));
+                countDown = DEFAULT_COUNTDOWN;
             }
         });
 
         applyBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                diffLevel = (Difficulty) diffLevels.getSelectedItem();
+                countDown = countDownSelection.getValue();
                 dialog.dispose();
                 HomeMenuFrame.instance.switchFrame(new SinglePlayerFrame());
             }
@@ -181,6 +208,12 @@ public class SinglePlayerSettings {
 
     public int getCountDown() {
         return this.countDown;
+    }
+
+    private String formatTime(int seconds) {
+        int minutes = seconds / 60;
+        int remainingSeconds = seconds % 60;
+        return String.format("%d min %02d sec", minutes, remainingSeconds);
     }
 
     private JButton createButton(String title) {
