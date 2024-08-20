@@ -32,17 +32,17 @@ public class HomeMenuPanel extends JPanel {
         title.setVerticalAlignment(SwingConstants.CENTER);
         title.setFont(fontOne);
         title.setForeground(defaultColour);
-        title.setBounds(100, 50, 400, 50);
+        title.setBounds(100, 50, 400, 60);
 
         singlePlayer = new MenuButtons("Single Player", null, "Play against a computer! - STILL IN PROGRESS");
         singlePlayer.addActionListener(new StartSinglePlayerAction());
         singlePlayer.setBounds(150, 150, 300, 50);
 
-        twoPlayer = new MenuButtons("Two Player", null, "Play against a friend! - 8 Goals to win");
+        twoPlayer = new MenuButtons("Two Player", null, "Play against a friend!");
         twoPlayer.addActionListener(new StartTwoPlayerAction());
         twoPlayer.setBounds(150, 250, 300, 50);
 
-        scoreboard = new MenuButtons("Scoreboard", null, "View your scores against the computer");
+        scoreboard = new MenuButtons("Scoreboard", null, "View your score against the computer");
         scoreboard.addActionListener(new GoToScoreboardAction());
         scoreboard.setBounds(150, 350, 300, 50);
 
@@ -54,9 +54,9 @@ public class HomeMenuPanel extends JPanel {
         version.setForeground(defaultColour);
         version.setBounds(10, 630, 100, 50);
 
-        developedBy = new JLabel("Developed by: A.E.M.A");
+        developedBy = new JLabel("Developed by: E. Maduka Agbeze");
         developedBy.setForeground(defaultColour);
-        developedBy.setBounds(440, 630, 200, 50);
+        developedBy.setBounds(380, 630, 200, 50);
 
         // Add the componenets to the panel
         add(title);
