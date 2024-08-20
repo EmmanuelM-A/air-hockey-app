@@ -1,15 +1,21 @@
 package ema.ui.game.settings;
 
 import javax.swing.*;
+
+import ema.ui.game.twoPlayer.TwoPlayerFrame;
+import ema.ui.home.HomeMenuFrame;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
 public class TwoPlayerSetting {
-    private JDialog dailog;
+    private JDialog dialog;
 
     private JSlider points;
+
+    private JLabel pointsHeader;
 
     private JPanel buttonsPanel;
 
@@ -19,30 +25,51 @@ public class TwoPlayerSetting {
 
     private JButton applyBtn;
 
+    private final Color MAIN_COLOUR = new Color(173, 216, 230);
+
+    private int winningPoints;
+
+    public static TwoPlayerSetting instance;
+
     public TwoPlayerSetting(JFrame homeFrame) {
-        this.dailog = new JDialog(homeFrame, "Two Player Settings", true);
-        this.points = new JSlider(1, 20);
+        this.dialog = new JDialog(homeFrame, "Two Player Settings", true);
+        this.points = new JSlider(1, 15);
+        this.pointsHeader = createLabel("Select the number of points to win:");
+        this.buttonsPanel = new JPanel(new FlowLayout());
+        this.cancelBtn = createButton("Cancel");
+        this.defaultBtn = createButton("Default");
+        this.applyBtn = createButton("Apply");
+        this.winningPoints = 8;
 
-        this.buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        this.cancelBtn = new JButton("CANCEL");
-        this.defaultBtn = new JButton("DEFAULT");
-        this.applyBtn = new JButton("APPLY");
-
+        // Points selection
+        points.setBackground(MAIN_COLOUR);
+        points.setForeground(Color.WHITE);
+        points.setPaintTrack(true);
+        points.setPaintTicks(true);
+        points.setPaintLabels(true);
+        points.setMajorTickSpacing(2);
+        points.setMinorTickSpacing(1);
+        
+        // Buttons
+        buttonsPanel.setBackground(MAIN_COLOUR);
         buttonsPanel.add(cancelBtn);
         buttonsPanel.add(defaultBtn);
         buttonsPanel.add(applyBtn);
 
-        dailog.setLocationRelativeTo(homeFrame);
-        dailog.setPreferredSize(new Dimension(400, 200));
-        dailog.setLayout(new BorderLayout());
-        
-        dailog.add(points, BorderLayout.CENTER);
-        dailog.add(buttonsPanel, BorderLayout.SOUTH);
+        // dialog Box
+        dialog.setLocationRelativeTo(homeFrame);
+        dialog.setPreferredSize(new Dimension(300, 200));
+        dialog.setLayout(new BorderLayout());
 
+        dialog.add(pointsHeader, BorderLayout.NORTH);
+        dialog.add(points, BorderLayout.CENTER);
+        dialog.add(buttonsPanel, BorderLayout.SOUTH);
+
+        // Button action listeners
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dailog.dispose();
+                dialog.dispose();
             }
             
         });
@@ -51,26 +78,55 @@ public class TwoPlayerSetting {
             @Override
             public void actionPerformed(ActionEvent e) {
                 points.setValue(8);
+                winningPoints = 8;
             }
-            
         });
 
         applyBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int pointsToWin = points.getValue();
-                System.out.println("Selected points: " + pointsToWin);
-                dailog.dispose();
-                // Open TwoPlayerFrame, setting values for the game
+                winningPoints = points.getValue();
+                dialog.dispose();
+                HomeMenuFrame.instance.switchFrame(new TwoPlayerFrame());
             }
             
         });
 
-        dailog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dailog.pack();
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.pack();
+        dialog.setLocationRelativeTo(homeFrame);
+
+        instance = this;
     }
 
     public JDialog getDialog() {
-        return this.dailog;
+        return this.dialog;
+    }
+
+    public int getWinningPoints() {
+        return this.winningPoints;
+    }
+
+    private JButton createButton(String title) {
+        JButton button = new JButton(title);
+
+        button.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        button.setBackground(MAIN_COLOUR);
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Cambria", Font.BOLD, 18));
+        button.setPreferredSize(new Dimension(80, 40));
+
+        return button;
+    }
+
+    private JLabel createLabel(String title) {
+        JLabel label = new JLabel(title);
+
+        label.setBackground(MAIN_COLOUR);
+        label.setFont(new Font("Cmabria", Font.BOLD, 15));
+        label.setForeground(Color.WHITE);
+        label.setOpaque(true);
+
+        return label;
     }
 }

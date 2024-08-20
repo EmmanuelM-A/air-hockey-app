@@ -17,6 +17,7 @@ import ema.components.Puck;
 import ema.components.Score;
 import ema.mechanics.GameEngine;
 import ema.mechanics.PaddleControls;
+import ema.ui.game.settings.TwoPlayerSetting;
 
 public class TwoPlayerGame extends GameEngine {
     private static final int PANEL_WIDTH = 1000;
@@ -91,9 +92,6 @@ public class TwoPlayerGame extends GameEngine {
 
     @Override
     public void init() {
-        // Default values
-        this.winningPoints = 8;
-
         // Initialise the border panel
         this.outerPanel = new JPanel();
         outerPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -159,7 +157,8 @@ public class TwoPlayerGame extends GameEngine {
 
     @Override
     public void setGameSettings() {
-        // Allow players to change the winning points
+        this.winningPoints = TwoPlayerSetting.instance.getWinningPoints();
+        System.out.println("Winning points: " + winningPoints);
     }
 
     @Override
@@ -233,9 +232,9 @@ public class TwoPlayerGame extends GameEngine {
 
     @Override
     public void runGame() {
+        setGameSettings();
         init();
         loadGame();
-        setGameSettings();
         runGameLoop();
         startGame();
     }
