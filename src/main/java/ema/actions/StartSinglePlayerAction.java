@@ -11,6 +11,8 @@ public class StartSinglePlayerAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //HomeMenuFrame.instance.switchFrame(new SinglePlayerFrame());
-        //new SinglePlayerSettings();
+        SinglePlayerSettings settings = new SinglePlayerSettings(HomeMenuFrame.instance);
+
+        settings.getDialog().setVisible(true);
     }
 }
