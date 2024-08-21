@@ -13,6 +13,7 @@ import ema.mechanics.AIPaddleControls;
 import ema.mechanics.Difficulty;
 import ema.mechanics.GameEngine;
 import ema.mechanics.PaddleControls;
+import ema.mechanics.Scoring;
 import ema.ui.game.settings.SinglePlayerSettings;
 import ema.ui.scoreboard.AddScorePopup;
 
@@ -91,8 +92,6 @@ public class SinglePlayerGame extends GameEngine {
      * Represents the left score and the right score on either side of the board.
      */
     private Score leftScore, rightScore;
-
-    private Difficulty aiDifficulty;
 
     private int countDown;
 
@@ -192,15 +191,19 @@ public class SinglePlayerGame extends GameEngine {
         // Display winning message
         if(leftScore.getScore() == rightScore.getScore()) {
             topLabel.getLabel().setText("Draw");
-        } else
-        if(leftScore.getScore() > rightScore.getScore()) {
+        } else if(leftScore.getScore() > rightScore.getScore()) {
             topLabel.getLabel().setText(aiPaddle.getName() + " Wins! Better luck next time");
         } else  if (rightScore.getScore() > leftScore.getScore() && hasAddScoreShown == false){
             hasAddScoreShown = true;
             topLabel.getLabel().setText(playerPaddle.getName() + " Wins!");
 
+            // Calculate Score
+            int score = Scoring.calculateScore(aiPaddle.getDifficulty().getDiffMultiplier(), countDown, rightScore.getScore());
+
+            System.out.println("Player Score: " + score);
+
             // Display insert score box
-            new AddScorePopup(rightScore.getScore());
+            new AddScorePopup(score);
         }
     }
 
@@ -355,7 +358,7 @@ public class SinglePlayerGame extends GameEngine {
 
     @Override
     public void setGameSettings() {
-        this.aiDifficulty = SinglePlayerSettings.instance.getDiffLevel();
+        Difficulty aiDifficulty = SinglePlayerSettings.instance.getDiffLevel();
         this.countDown = SinglePlayerSettings.instance.getCountDown();
         countDownTimer.setTime(countDown);
         aiPaddle.setDifficulty(aiDifficulty);
@@ -369,7 +372,7 @@ public class SinglePlayerGame extends GameEngine {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        AIPaddleControls.movePaddle(aiPaddle, innerPanel, aiDifficulty.getSpeedMultiplier());
+                        AIPaddleControls.movePaddle(aiPaddle, innerPanel, aiPaddle.getDifficulty().getSpeedMultiplier());
         
                         puck.handleCollsions(aiPaddle);
                         puck.handleCollsions(playerPaddle);

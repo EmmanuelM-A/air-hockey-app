@@ -21,6 +21,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ema.components.CountDown;
 import ema.mechanics.Difficulty;
 import ema.ui.game.singlePlayer.SinglePlayerFrame;
 import ema.ui.home.HomeMenuFrame;
@@ -63,7 +64,7 @@ public class SinglePlayerSettings {
         this.diffHeader = createLabel("Choose MegaBot's difficulty:");
         this.diffLevels = new JComboBox<>(diffSelection);
         this.countDownHeader = createLabel("Select the count down timer:");
-        this.countDownSelection = new JSlider(60, 300, DEFAULT_COUNTDOWN);
+        this.countDownSelection = new JSlider(60, CountDown.MAX_COUNTDOWN, DEFAULT_COUNTDOWN);
         this.selectedCountDown = createLabel(formatTime(DEFAULT_COUNTDOWN));
         this.buttonsPanel = new JPanel(new FlowLayout());
         this.cancelBtn = createButton("Cancel");

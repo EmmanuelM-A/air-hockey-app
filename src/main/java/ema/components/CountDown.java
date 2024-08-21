@@ -12,6 +12,8 @@ public class CountDown implements Runnable {
     private String formattedTime;
     private GameText label;
 
+    public static final int MAX_COUNTDOWN = 300;
+
     public CountDown(int seconds, final GameText label) {
         this.initialSeconds = seconds;
         this.timeRemaining = seconds;
