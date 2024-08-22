@@ -95,6 +95,13 @@ public class SinglePlayerGame extends GameEngine {
 
     private int countDown;
 
+    private long timePuckOnAISide = 0;
+
+    /**
+     * Represents 5 seconds
+     */
+    private final long MAX_TIME_PUCK_ON_AI_SIDE = 5000; 
+
     private boolean hasAddScoreShown = false;
 
     private Timer gameLoop;
@@ -211,6 +218,22 @@ public class SinglePlayerGame extends GameEngine {
         if(countDownTimer.getTimeRemaining() == 0) {
             handlePlayerWin();
             stopGame();
+        }
+    }
+
+    private void resetIfPuckStuck() {
+        if(puck.getLocation().x < WIDTH / 2) {
+            if(timePuckOnAISide == 0) {
+                timePuckOnAISide = System.currentTimeMillis();
+            } else {
+                long timeOnAISide = System.currentTimeMillis() - timePuckOnAISide;
+                if(timeOnAISide >= MAX_TIME_PUCK_ON_AI_SIDE) {
+                    resetGame();
+                    timePuckOnAISide = 0; // Reset the timer
+                }
+            }
+        } else {
+            timePuckOnAISide = 0;
         }
     }
 
@@ -387,6 +410,8 @@ public class SinglePlayerGame extends GameEngine {
                         puck.setYVelocity(puck.getYVelocity() - (puck.getYVelocity() * FRICTION));
         
                         handleWin();
+
+                        resetIfPuckStuck();
         
                         innerPanel.repaint();
                     }
@@ -413,10 +438,8 @@ public class SinglePlayerGame extends GameEngine {
 
     @Override
     protected void resetGame() {
-        // If left player scored, position the puck on the right side next round
-        if((leftGoal.getIsGoal() == false && rightGoal.getIsGoal() == true) || (leftGoal.getIsGoal() == true && rightGoal.getIsGoal() == false)) {
-            puck.setLocation(new Point((WIDTH - Puck.DIAMETER) / 2, (HEIGHT / 2) - 20));
-        }
+        // Reset the puck's location
+        puck.setLocation(new Point((WIDTH - Puck.DIAMETER) / 2, (HEIGHT / 2) - 20));
 
         // Reset the location of the paddles
         aiPaddle.setLocation(new Point((WIDTH - Paddle.DIAMETER) / 6, (HEIGHT - Paddle.DIAMETER) / 2));

@@ -38,8 +38,10 @@ public class AIPaddleControls {
                     if (paddle.getBounds().intersects(Puck.instance.getBounds())) {
                         int hitDirectionX = 1; // Assuming the player's goal is on the right side
                         int hitDirectionY = (puckY < y) ? -1 : 1; // Adjust y direction based on puck's position
-                        Puck.instance.setXVelocity(hitDirectionX * Math.abs(Puck.instance.getXVelocity()));
+                        Puck.instance.setXVelocity(hitDirectionX * Math.abs(Puck.instance.getXVelocity()) * 2);
                         Puck.instance.setYVelocity(hitDirectionY * Math.abs(Puck.instance.getYVelocity()));
+
+                        Puck.instance.setLocation(new Point(puckX + hitDirectionX * 5, puckY + hitDirectionY * 5));
                     }
                 } else {
                     // Move the paddle directly towards the puck's y position gradually
@@ -56,6 +58,10 @@ public class AIPaddleControls {
             // Constrain the paddle to its half of the table
             int[] bounds = paddle.getRegionBounds();
             y = Math.max(bounds[2], Math.min(y, bounds[3] - Paddle.DIAMETER));
+
+            // Constrain the paddle's x postion to not pass this a certain point
+            /*int aiXBound = SinglePlayerGame.PANEL_WIDTH / 4;
+            x = Math.min(x, aiXBound);*/
 
             paddle.setLocation(new Point(x, y));
             paddle.repaint();

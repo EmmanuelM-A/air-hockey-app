@@ -26,8 +26,8 @@ public class AddScorePopup {
                 String input = textField.getText();
 
                 if (validateInput(input)) {
-                    if(showFeedback(input, score)) return;
                     System.out.println("Input valid");
+                    if(showFeedback(input, score)) return;
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid input. Please try again.", "Validation Error", JOptionPane.ERROR_MESSAGE);
                     System.out.println("Input invalid");
