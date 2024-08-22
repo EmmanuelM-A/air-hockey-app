@@ -9,7 +9,7 @@ import ema.helper.ProfanityFilter;
 public class AddScorePopup {
     private ProfanityFilter filter;
     public AddScorePopup(int playerScore) {
-        filter = new ProfanityFilter();
+        filter = new ProfanityFilter("src\\main\\resources\\files\\inapporiateWords.csv");
         showValidatedInputDialog(playerScore);
     }
 
@@ -46,8 +46,7 @@ public class AddScorePopup {
         if(input.length() > 50) return false;
 
         // Check for inapporiate words
-        if(filter.containsBadWords(input) == false) return false;
-        //if(filter.filterText(input) != null) return false;
+        if(filter.checkInput(input) == false) return false;
 
         return true;
     }
