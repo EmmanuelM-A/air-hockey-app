@@ -5,6 +5,9 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
+/**
+ * This class creates custom text elements used throughout the project. 
+ */
 public class GameText {
     /**
      * The text displayed around the board.
@@ -30,7 +33,7 @@ public class GameText {
 
     /**
      * Gets the label
-     * @return The JLabel
+     * @return The text label
      */
     public JLabel getLabel() {
         return this.label;

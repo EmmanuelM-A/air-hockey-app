@@ -51,7 +51,7 @@ public class Puck extends JPanel {
     
     /**
      * Creates an instance of the puck class at the provided starting location.
-     * @param startingLocation The location of the puck when the game is loaded
+     * @param startingLocation The location of the puck when the game is loaded.
      */
     public Puck(Point startingLocation) {
         this.location = startingLocation;
@@ -60,59 +60,113 @@ public class Puck extends JPanel {
         instance = this;
     }
 
+    /**
+     * Initialises and assigns the variables their inital variables. 
+     */
     public void init() {
         this.xVelocity = 0.0;
         this.yVelocity = 0.0;
     }
 
+    /**
+     * Gets the location of the puck on the game panel.
+     * @return The location 
+     */
     public Point getLocation() {
         return this.location;
     }
 
+    /**
+     * Gets the overlap between the puck and any component on the game panel.
+     * @return The overlap
+     */
     public int getOverlap() {
         return this.overlap;
     }
 
+    /**
+     * Gets the x velocity of the puck.
+     * @return The x velocity.
+     */
     public double getXVelocity() {
         return this.xVelocity;
     }
 
+    /**
+     * Gets the y velocity of the puck.
+     * @return The y velocity.
+     */
     public double getYVelocity() {
         return this.yVelocity;
     }
 
+    /**
+     * Gets the distance between the puck's centre and paddle's centre.
+     * @return The distance
+     */
     public double getDistance() {
         return this.distance;
     }
 
+    /**
+     * Gets the left boundary of the puck.
+     * @return The x coordinate corresponding to puck's left boudnary.
+     */
     public int getLeftBoundary() {
         return this.location.x;
     }
 
+    /**
+     * Gets the right boundary of the puck.
+     * @return The x coordinate corresponding to the puck's right boudnary.
+     */
     public int getRightBoundary() {
         return this.location.x + DIAMETER;
     }
 
+    /**
+     * Gets the top boundary of the puck.
+     * @return The y coordinate corresponding to the puck's top boundary.
+     */
     public int getTopBoundary() {
         return this.location.y;
     }
 
+    /**
+     * Gets the bottom boundary of the puck.
+     * @return The y coordinate corresponding to the puck's bottom boundary.
+     */
     public int getBottomBoundary() {
         return this.location.y + DIAMETER;
     }
 
+    /**
+     * Sets the location of the puck to the inputted location.
+     * @param The new location.
+     */
     public void setLocation(Point newLocation) {
         this.location = newLocation;
     }
 
+    /**
+     * Sets the x velocity of the puck to a new x velocity.
+     * @param newxVelocity The new x velocity.
+     */
     public void setXVelocity(double newxVelocity) {
         this.xVelocity = newxVelocity;
     }
 
+    /**
+     * Sets the y velocity of the puck to a new y velocity.
+     * @param newyVelocity The y velocity.
+     */
     public void setYVelocity(double newyVelocity) {
         this.yVelocity = newyVelocity;
     }
 
+    /**
+     * Moves the puck by a given amount, determined by the puck's velocity.
+     */
     public void move() {
         int x = (int)(this.getLocation().x + xVelocity);
         int y = (int)(this.getLocation().y + yVelocity);
