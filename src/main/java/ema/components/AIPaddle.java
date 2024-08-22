@@ -5,7 +5,7 @@ import java.awt.Point;
 import ema.mechanics.Difficulty;
 
 /**
- * This class constructs a an AIPaddle instance extended from the Paddle class.
+ * This class constructs an AIPaddle instance extended from the Paddle class.
  */
 public class AIPaddle extends Paddle {
     /**
@@ -29,11 +29,18 @@ public class AIPaddle extends Paddle {
         return (int)(super.getVelocity() * difficulty.getSpeedMultiplier());
     }
 
-    /* */
+    /**
+     * Returns the selected difficulty of the AI opponent.
+     * @return The AI difficulty
+    */
     public Difficulty getDifficulty() {
         return this.difficulty;
     }
 
+    /**
+     * Sets the AI's difficulty
+     * @param newDiff The new difficulty of the AI opponent.
+     */
     public void setDifficulty(Difficulty newDiff) {
         this.difficulty = newDiff;
     }
