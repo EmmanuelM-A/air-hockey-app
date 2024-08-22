@@ -395,7 +395,7 @@ public class SinglePlayerGame extends GameEngine {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        AIPaddleControls.movePaddle(aiPaddle, innerPanel, aiPaddle.getDifficulty().getSpeedMultiplier());
+                        AIPaddleControls.movePaddle(aiPaddle, innerPanel);
         
                         puck.handleCollsions(aiPaddle);
                         puck.handleCollsions(playerPaddle);

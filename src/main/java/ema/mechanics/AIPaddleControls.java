@@ -10,7 +10,7 @@ import ema.components.Puck;
 import ema.ui.game.singlePlayer.SinglePlayerGame;
 
 public class AIPaddleControls {
-    public static void movePaddle(AIPaddle paddle, JPanel playableArea, double speedMultiplier) {
+    public static void movePaddle(AIPaddle paddle, JPanel playableArea) {
         if (!paddle.getIsPaddleDisabled()) {
             // Get the current location of the paddle
             Point paddleLocation = paddle.getLocation();
@@ -25,14 +25,11 @@ public class AIPaddleControls {
             // Determine if the puck is on the AI's side of the table
             boolean isPuckOnAISide = puckX < (SinglePlayerGame.PANEL_WIDTH / 2);
 
-            // Adjust the paddle's velocity based on the speed muliplier
-            int adjustedVelocity = (int) (paddle.getVelocity() * speedMultiplier);
-
             if (isPuckOnAISide) {
                 if (Puck.instance.isStationary()) {
                     // Move towards the puck
-                    x = approach(x, puckX, adjustedVelocity);
-                    y = approach(y, puckY, adjustedVelocity);
+                    x = approach(x, puckX, paddle.getVelocity());
+                    y = approach(y, puckY, paddle.getVelocity());
 
                     // Adjust paddle's position to hit the puck towards the player's goal
                     if (paddle.getBounds().intersects(Puck.instance.getBounds())) {
@@ -45,14 +42,14 @@ public class AIPaddleControls {
                     }
                 } else {
                     // Move the paddle directly towards the puck's y position gradually
-                    y = approach(y, puckY, adjustedVelocity);
+                    y = approach(y, puckY, paddle.getVelocity());
                 }
             } else {
                 // Predict the puck's future position
                 Point predictedPosition = predictPuckPosition(paddle);
 
                 // Move the paddle towards the predicted position gradually
-                y = approach(y, predictedPosition.y, adjustedVelocity);
+                y = approach(y, predictedPosition.y, paddle.getVelocity());
             }
 
             // Constrain the paddle to its half of the table
