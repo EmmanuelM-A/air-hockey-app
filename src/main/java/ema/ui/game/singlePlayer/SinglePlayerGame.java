@@ -98,9 +98,9 @@ public class SinglePlayerGame extends GameEngine {
     private long timePuckOnAISide = 0;
 
     /**
-     * Represents 5 seconds
+     * Represents 4 seconds
      */
-    private final long MAX_TIME_PUCK_ON_AI_SIDE = 5000; 
+    private final long MAX_TIME_PUCK_ON_AI_SIDE = 4000; 
 
     private boolean hasAddScoreShown = false;
 

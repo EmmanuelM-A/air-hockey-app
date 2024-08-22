@@ -34,7 +34,7 @@ public class HomeMenuPanel extends JPanel {
         title.setForeground(defaultColour);
         title.setBounds(100, 50, 400, 60);
 
-        singlePlayer = new MenuButtons("Single Player", null, "Play against a computer! - STILL IN PROGRESS");
+        singlePlayer = new MenuButtons("Single Player", null, "Play against a computer!");
         singlePlayer.addActionListener(new StartSinglePlayerAction());
         singlePlayer.setBounds(150, 150, 300, 50);
 
