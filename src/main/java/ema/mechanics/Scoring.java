@@ -8,7 +8,7 @@ public class Scoring {
 
         double timeFactor = Math.pow((countDown / (double) CountDown.MAX_COUNTDOWN), k);
 
-        int score = (int) (playerPoints * diffMultiplier * timeFactor * 10000);
+        int score = (int) (playerPoints * diffMultiplier * timeFactor * 1000);
 
         return score;
     }

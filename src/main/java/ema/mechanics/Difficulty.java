@@ -1,9 +1,9 @@
 package ema.mechanics;
 
 public enum Difficulty {
-    EASY(0.75, 1.0),
-    NORMAL(1.0, 1.6),
-    HARD(1.5, 2.1);
+    EASY(0.75, 0.45),
+    NORMAL(1.0, 1.2),
+    HARD(1.5, 1.8);
 
     private double speedMultiplier; 
     private double diffMultiplier;
