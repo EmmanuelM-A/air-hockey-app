@@ -59,10 +59,6 @@ public class AIPaddleControls {
             int[] bounds = paddle.getRegionBounds();
             y = Math.max(bounds[2], Math.min(y, bounds[3] - Paddle.DIAMETER));
 
-            // Constrain the paddle's x postion to not pass this a certain point
-            /*int aiXBound = SinglePlayerGame.PANEL_WIDTH / 4;
-            x = Math.min(x, aiXBound);*/
-
             paddle.setLocation(new Point(x, y));
             paddle.repaint();
             playableArea.repaint();

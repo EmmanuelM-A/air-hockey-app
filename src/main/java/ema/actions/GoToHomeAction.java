@@ -11,21 +11,35 @@ import ema.ui.game.twoPlayer.TwoPlayerFrame;
 import ema.ui.game.twoPlayer.TwoPlayerGame;
 import ema.ui.home.HomeMenuFrame;
 
+/**
+ * This class handles the go to home action when the home button is clicked on any frame or panel.
+ */
 public class GoToHomeAction implements ActionListener {
+    /**
+     * The frame that is currently being displayed and from which the home button was clicked.
+     */
     private BaseFrame frame;
 
+    /**
+     * Constructs a button action for different game frames.
+     * @param frame The current frame the action is being called from.
+     */
     public GoToHomeAction(BaseFrame frame) {
         this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Stop any running audio clips
         AudioPlayer.stopCurrentClip();
-        if(frame instanceof SinglePlayerFrame) {
+
+        if(frame instanceof SinglePlayerFrame) { // If the frame is the single player game
             SinglePlayerGame.instance.stopGame();
-        } else if(frame instanceof TwoPlayerFrame) {
+        } else if(frame instanceof TwoPlayerFrame) { // If the frame is the two playrt game
             TwoPlayerGame.instance.stopGame();
         }
+
+        // Switch to that frame
         frame.switchFrame(new HomeMenuFrame());
     }
 }
