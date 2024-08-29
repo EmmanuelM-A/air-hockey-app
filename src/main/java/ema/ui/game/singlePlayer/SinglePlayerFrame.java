@@ -10,6 +10,9 @@ import ema.components.*;
 import ema.mechanics.GameMode;
 import ema.ui.BaseFrame;
 
+/**
+ * This class creates the single player game frame.
+ */
 public class SinglePlayerFrame extends BaseFrame {
     /**
      * The width of the frame
@@ -25,8 +28,14 @@ public class SinglePlayerFrame extends BaseFrame {
      */
     public static final Color MAIN_COLOUR = Color.BLUE;
 
+    /**
+     * The instance of the single player frame.
+     */
     public static SinglePlayerFrame instance;
 
+    /**
+     * The single player game.
+     */
     private SinglePlayerGame singlePlayer;
 
     /**

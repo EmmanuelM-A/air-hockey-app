@@ -9,28 +9,61 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * This class handles the creation of the two player game settings window.
+ */
 public class TwoPlayerSetting {
+    /**
+     * The game settings window.
+     */
     private JDialog dialog;
 
+    /**
+     * The the winning game points selector.
+     */
     private JSlider points;
 
+    /**
+     * The points header for the points selector.
+     */
     private JLabel pointsHeader;
 
+    /**
+     * The buttons panel that contains the game settings buttons.
+     */
     private JPanel buttonsPanel;
 
+    /**
+     * The cancel button used to exit the game settings window.
+     */
     private JButton cancelBtn;
 
+    /**
+     * The default button thats set the game settings back to deafult.
+     */
     private JButton defaultBtn;
 
+    /**
+     * The apply button that applys the game settings before the game is laoded.
+     */
     private JButton applyBtn;
 
     private final Color MAIN_COLOUR = new Color(173, 216, 230);
 
+    /**
+     * The selected winning points
+     */
     private int winningPoints;
 
+    /**
+     * The instance of the game settings window. 
+     */
     public static TwoPlayerSetting instance;
 
+    /**
+     * Creates a game settings window assigned to the gome frame.
+     * @param homeFrame The home screen.
+     */
     public TwoPlayerSetting(JFrame homeFrame) {
         this.dialog = new JDialog(homeFrame, "Two Player Settings", true);
         this.points = new JSlider(1, 15, 8);
@@ -100,14 +133,27 @@ public class TwoPlayerSetting {
         instance = this;
     }
 
+    /**
+     * Gets the game settings window.
+     * @return The dialog box that contains the game components.
+     */
     public JDialog getDialog() {
         return this.dialog;
     }
 
+    /**
+     * Gets the selected winning points.
+     * @return The winning points.
+     */
     public int getWinningPoints() {
         return this.winningPoints;
     }
 
+    /**
+     * Creates and styles a button for the game settings window.
+     * @param title The title of button.
+     * @return A styled button.
+     */
     private JButton createButton(String title) {
         JButton button = new JButton(title);
 
@@ -120,6 +166,11 @@ public class TwoPlayerSetting {
         return button;
     }
 
+    /**
+     * Creates and styles a label for the game settings window.
+     * @param title The tite of the label.
+     * @return A styled label.
+     */
     private JLabel createLabel(String title) {
         JLabel label = new JLabel(title);
 

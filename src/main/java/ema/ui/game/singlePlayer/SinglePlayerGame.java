@@ -17,6 +17,9 @@ import ema.mechanics.Scoring;
 import ema.ui.game.settings.SinglePlayerSettings;
 import ema.ui.scoreboard.AddScorePopup;
 
+/**
+ * This class handles the creation of the game, the loading of its components and running of all the functions in the game loop.
+ */
 public class SinglePlayerGame extends GameEngine {
     /**
      * The WIDTH of the outer panel.
@@ -85,7 +88,10 @@ public class SinglePlayerGame extends GameEngine {
      * Represents the textbox, top of the board.
      */
     private GameText topLabel;
-     
+    
+    /**
+     * The count down timer of the match.
+     */
     private CountDown countDownTimer;
 
     /**
@@ -93,17 +99,29 @@ public class SinglePlayerGame extends GameEngine {
      */
     private Score leftScore, rightScore;
 
+    /**
+     * The count down timer of the match.
+     */
     private int countDown;
 
+    /**
+     * Used for reseting the puck's postion if it gets stuck on the AI's side.
+     */
     private long timePuckOnAISide = 0;
 
     /**
-     * Represents 4 seconds
+     * Represents maximum time that the puck can be on the AI's side - 4 seconds.
      */
     private final long MAX_TIME_PUCK_ON_AI_SIDE = 4000; 
 
+    /**
+     * Used to show the score popup box once. 
+     */
     private boolean hasAddScoreShown = false;
 
+    /**
+     * The game loop that runs the game
+     */
     private Timer gameLoop;
 
     /**
@@ -111,6 +129,12 @@ public class SinglePlayerGame extends GameEngine {
      */
     public static SinglePlayerGame instance;
 
+    /**
+     * Creates the game.
+     * @param leftScore The left score to display the AI's score.
+     * @param rightScore The right score to display the player's score.
+     * @param topLabel The top label for displaying game messages.
+     */
     public SinglePlayerGame(Score leftScore, Score rightScore, final GameText topLabel) {
         this.leftScore = leftScore;
         this.rightScore = rightScore;
@@ -121,46 +145,85 @@ public class SinglePlayerGame extends GameEngine {
         instance = this;
     }
 
+    /**
+     * Gets the outer panel of the game.
+     * @return The outer panel.
+     */
     public JPanel getOuterPanel() {
         return this.outerPanel;
     }
 
+    /**
+     * Gets the inner panel of the game.
+     * @return The inner panel.
+     */
     public JPanel getInnerPanel() {
         return this.innerPanel;
     }
 
+    /**
+     * Gets the width of game (inner) panel.
+     * @return The width.
+     */
     public int getWIDTH() {
         return this.WIDTH;
     }
 
+    /**
+     * Gets the hight of the game (inner) panel.
+     * @return The height.
+     */
     public int getHeight() {
         return this.HEIGHT;
     }
 
+    /**
+     * Gets the AI Paddle object on the game panel.
+     * @return The Ai Paddle object.
+     */
     public Paddle getaiPaddle() {
         return this.aiPaddle;
     }
 
+    /**
+     * Gets the player paddle on the game panel.
+     * @return The player object.
+     */
     public Paddle getplayerPaddle() {
         return this.playerPaddle;
     }
 
+    /**
+     * Gets the puck object on the game paddle.
+     * @return The puck object.
+     */
     public Puck getPuck() {
         return this.puck;
     }
 
+    /**
+     * The left goal on the game panel.
+     * @return The left goal object.
+     */
     public Goal getLeftGoal() {
         return this.leftGoal;
     }
 
+    /**
+     * The right goal on the game panel.
+     * @return The right goal object.
+     */
     public Goal getRightGoal() {
         return this.rightGoal;
     }
 
+    /**
+     * Handles goals and following steps after a goal.
+     */
     private void handleGoals() {
         if(puck.goalDetected(leftGoal)) {
             if(leftGoal.getIsGoal() == false) {
-                //topLabel.getLabel().setText(playerPaddle.getName() + " scored a goal!");
+                topLabel.getLabel().setText(playerPaddle.getName() + " scored a goal!");
                 rightScore.incrementScore();
                 leftGoal.setIsGoal(true);
                 resetGame();
@@ -168,7 +231,7 @@ public class SinglePlayerGame extends GameEngine {
             }
         } else if(puck.goalDetected(rightGoal)) {
             if(rightGoal.getIsGoal() == false) {
-                //topLabel.getLabel().setText(aiPaddle.getName() + " scored a goal!");
+                topLabel.getLabel().setText(aiPaddle.getName() + " scored a goal!");
                 leftScore.incrementScore();
                 rightGoal.setIsGoal(true);
                 resetGame();
@@ -177,6 +240,9 @@ public class SinglePlayerGame extends GameEngine {
         }
     }
 
+    /**
+     * Handles an opponent win.
+     */
     private void handlePlayerWin() {
         // Disable paddle movemenets
         aiPaddle.setIsPaddleDisabled(true);
@@ -214,6 +280,9 @@ public class SinglePlayerGame extends GameEngine {
         }
     }
 
+    /**
+     * Handles the steps involved when a opponent wins the game.
+     */
     private void handleWin() {
         if(countDownTimer.getTimeRemaining() == 0) {
             handlePlayerWin();
@@ -221,6 +290,9 @@ public class SinglePlayerGame extends GameEngine {
         }
     }
 
+    /**
+     * Reset the puck's location when it gets stuck on the AI's side.
+     */
     private void resetIfPuckStuck() {
         if(puck.getLocation().x < WIDTH / 2) {
             if(timePuckOnAISide == 0) {
@@ -237,6 +309,10 @@ public class SinglePlayerGame extends GameEngine {
         }
     }
 
+    /**
+     * Draws the game components onto the game panel.
+     * @param g The game panel's graphic instance.
+     */
     private void drawObjects(Graphics g) {
         int diameter = 150;
         // Draws the central line

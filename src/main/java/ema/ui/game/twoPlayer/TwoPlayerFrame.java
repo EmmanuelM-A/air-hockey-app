@@ -12,6 +12,9 @@ import ema.components.Score;
 import ema.mechanics.GameMode;
 import ema.ui.BaseFrame;
 
+/**
+ * This class creates the two player game frame.
+ */
 public class TwoPlayerFrame extends BaseFrame {
     /**
      * The width of the frame

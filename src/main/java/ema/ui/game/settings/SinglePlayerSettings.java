@@ -26,39 +26,91 @@ import ema.mechanics.Difficulty;
 import ema.ui.game.singlePlayer.SinglePlayerFrame;
 import ema.ui.home.HomeMenuFrame;
 
+/**
+ * This class handles the creation of the single player game settings.
+ */
 public class SinglePlayerSettings {
+    /**
+     * The game setting window.
+     */
     private JDialog dialog;
 
+    /**
+     * The difficulty header for the difficulty selection box. 
+     */
     private JLabel diffHeader;
 
+    /**
+     * The AI difficulty selection box.
+     */
     private JComboBox<Difficulty> diffLevels;
 
+    /**
+     * The count down timer header for the game length selection.
+     */
     private JLabel countDownHeader;
 
+    /**
+     * The match length range selecter.
+     */
     private JSlider countDownSelection;
 
+    /**
+     * This label visually displays the selected timer length.
+     */
     private JLabel selectedCountDown;
 
+    /**
+     * The panel that holds the game setting buttons.
+     */
     private JPanel buttonsPanel;
 
+    /**
+     * The cancel button to exit the game settings window.
+     */
     private JButton cancelBtn;
 
+    /**
+     * The default button that sets the game settings back to default.
+     */
     private JButton defaultBtn;
 
+    /**
+     * The apply button used to apply the game settings before loading the game.
+     */
     private JButton applyBtn;
 
+    /**
+     * The difficulty options for the AI paddle.
+     */
     private Difficulty[] diffSelection = {Difficulty.EASY, Difficulty.NORMAL, Difficulty.HARD};
 
+    /**
+     * The selected difficulty level of the AI paddle.
+     */
     private Difficulty diffLevel;
 
+    /**
+     * The count down timer/match length selected.
+     */
     private int countDown;
 
+    /**
+     * The deafult countdown time.
+     */
     private final int DEFAULT_COUNTDOWN = 120;
 
     private final Color MAIN_COLOUR = new Color(173, 216, 230);
 
+    /**
+     * The game settings instance.
+     */
     public static SinglePlayerSettings instance;
 
+    /**
+     * Creates a game settings window assigned to a the home frame.
+     * @param homeFrame The home screen of the game.
+     */
     public SinglePlayerSettings(JFrame homeFrame) {
         this.dialog = new JDialog(homeFrame, "Single Player Game Settings");
         this.diffHeader = createLabel("Choose MegaBot's difficulty:");
@@ -199,24 +251,46 @@ public class SinglePlayerSettings {
        
     }
 
+    /**
+     * Gets the game settings window
+     * @return The dialog box containing the game settings components.
+     */
     public JDialog getDialog() {
         return this.dialog;
     }
 
+    /**
+     * Gets the selected AI difficulty.
+     * @return The AI difficulty.
+     */
     public Difficulty getDiffLevel() {
         return this.diffLevel;
     }
 
+    /**
+     * Gets the selected game count down timer.
+     * @return The game match length.
+     */
     public int getCountDown() {
         return this.countDown;
     }
 
+    /**
+     * Formats the time from seconds to minutes.
+     * @param seconds The time in seconds.
+     * @return The formnatted time in minutes.
+     */
     private String formatTime(int seconds) {
         int minutes = seconds / 60;
         int remainingSeconds = seconds % 60;
         return String.format("%d min %02d sec", minutes, remainingSeconds);
     }
 
+    /**
+     * Creates and styles buttons for the game settings window.
+     * @param title The title of the button.
+     * @return A styled button.
+     */
     private JButton createButton(String title) {
         JButton button = new JButton(title);
 
@@ -229,6 +303,11 @@ public class SinglePlayerSettings {
         return button;
     }
 
+    /**
+     * Creates and styles a label used for headers.
+     * @param title The title of the header
+     * @return A styled label.
+     */
     private JLabel createLabel(String title) {
         JLabel label = new JLabel(title);
 
@@ -239,6 +318,4 @@ public class SinglePlayerSettings {
 
         return label;
     }
-
-    
 }
