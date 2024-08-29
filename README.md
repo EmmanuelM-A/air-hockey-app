@@ -83,10 +83,10 @@ The project is a Java air hockey game that features a single-player mode against
 1. Run the application:
 
     - If using an IDE like IntelliJ IDEA or Eclipse, open the project and run the `Main` class.
-    - If using the command line, navigate to the `target` directory (for Maven), and run:
+    - If using the command line, navigate to the root directory, and run:
 
       ```sh
-      java -jar air-hockey-app.jar
+      java -jar .\target\air-hockey-app.jar
       ```
 
 2. In the game, select either single-player mode or two-player mode from the main menu.
