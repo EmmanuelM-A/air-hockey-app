@@ -14,11 +14,19 @@ import ema.database.DatabaseHandler;
 import ema.ui.BaseFrame;
 import ema.ui.MenuButtons;
 
-public class ScoreboardPanel extends JPanel {    
+/**
+ * Creates the scoreboard panel and its components.
+ */
+public class ScoreboardPanel extends JPanel {
+    /**
+     * Creates the scoreboard which will display the top 10 scores.
+     * @param frame The frame it will be added to.
+     */    
     public ScoreboardPanel(BaseFrame frame) {
         super.setLayout(null);
         super.setBackground(new Color(173, 216, 230));
 
+        // The title
         JLabel title = new JLabel("Scoreboard");
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setVerticalAlignment(SwingConstants.CENTER);
@@ -31,6 +39,7 @@ public class ScoreboardPanel extends JPanel {
 
         String[][] data = DatabaseHandler.getScoreboardData();
 
+        // The table displaying the top scores.
         JTable scoreboard = new JTable(data, columnNames);
         scoreboard.getTableHeader().setBounds(100, 100, 400, 40);
         scoreboard.setBounds(100, 140, 400, 400);
@@ -39,6 +48,7 @@ public class ScoreboardPanel extends JPanel {
         scoreboard.setForeground(Color.BLACK);
         scoreboard.setBackground(Color.WHITE);
 
+        // Exit button
         MenuButtons exitBtn = new MenuButtons("Home", null, "");
         exitBtn.addActionListener(new GoToHomeAction(frame));
         exitBtn.setBounds(250, 550, 100, 50);

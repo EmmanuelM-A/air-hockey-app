@@ -5,10 +5,18 @@ import java.awt.Dimension;
 
 import ema.ui.BaseFrame;
 
+/**
+ * Displays the home screen for the game.
+ */
 public class HomeMenuFrame extends BaseFrame {
-
+    /**
+     * An instance of the home screen.
+     */
     public static HomeMenuFrame instance;
 
+    /**
+     * Creates and displays the home screen.
+     */
     public HomeMenuFrame() {
         super.setTitle("");
         super.setSize(new Dimension(600, 700));

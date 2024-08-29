@@ -8,13 +8,31 @@ import javax.swing.*;
 
 import java.awt.*;
 
+/**
+ * This class handles the creation of the menu buttons.
+ */
 public class MenuButtons extends JButton {
+    /**
+     * The buttons action listener.
+     */
     private ActionListener listener;
 
+    /**
+     * Button's descritpion.
+     */
     private JLabel description;
 
+    /**
+     * Curved radius of the button.
+     */
     private final int RADIUS = 50;
 
+    /**
+     * Creates a styled menu button with the following arguments.
+     * @param title The title of the button.
+     * @param listener The button's action listner.
+     * @param descriptionText The button's description, null if there is none.
+     */
     public MenuButtons(String title, ActionListener listener, String descriptionText) {
         super(title);
         this.listener = listener;
@@ -46,10 +64,18 @@ public class MenuButtons extends JButton {
         });
     }
 
+    /**
+     * Gets the button's description.
+     * @return The button description.
+     */
     public JLabel getDescription() {
         return this.description;
     }
 
+    /**
+     * Gets the button's action listener.
+     * @return The button actionlistener.
+     */
     public ActionListener getListener() {
         return this.listener;
     }
@@ -85,6 +111,4 @@ public class MenuButtons extends JButton {
     public Dimension getPreferredSize() {
         return new Dimension(100, 50);
     }
-
-
 }

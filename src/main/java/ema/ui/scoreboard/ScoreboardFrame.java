@@ -4,7 +4,13 @@ import java.awt.Dimension;
 
 import ema.ui.BaseFrame;
 
+/**
+ * Displays the scoreboard frame.
+ */
 public class ScoreboardFrame extends BaseFrame {
+    /**
+     * Creates the scoreboard frame and adds its panel.
+     */
     public ScoreboardFrame() {
         super.setTitle("");
         super.setSize(new Dimension(600, 700));

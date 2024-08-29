@@ -6,13 +6,28 @@ import javax.swing.JTextField;
 import ema.database.DatabaseHandler;
 import ema.helper.ProfanityFilter;
 
+/**
+ * Handles the displaying of the Add Score popup box.
+ */
 public class AddScorePopup {
+    /**
+     * Used to detcet any profanity in user inputs. 
+     */
     private ProfanityFilter filter;
+
+    /**
+     * Creates a popup where users can input their name which will be saved on a scoreboard with their score.
+     * @param playerScore The player's score.
+     */
     public AddScorePopup(int playerScore) {
         filter = new ProfanityFilter("src\\main\\resources\\files\\inapporiateWords.csv");
         showValidatedInputDialog(playerScore);
     }
 
+    /**
+     * Displays the popup box.
+     * @param score The player's score that will be added to the screboard.
+     */
     private void showValidatedInputDialog(int score) {
         while (true) {
             JTextField textField = new JTextField();
@@ -20,6 +35,7 @@ public class AddScorePopup {
                 "If you wish to add your score to the scoreboard, enter your name below. (50 characters long)", textField
             };
 
+            // Displays the JOptionPane and gets the success value.
             int option = JOptionPane.showConfirmDialog(null, messageContent, "Congratulations Challenger", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (option == JOptionPane.OK_OPTION) {
@@ -38,6 +54,11 @@ public class AddScorePopup {
         }
     }
 
+    /**
+     * Checks to make sure the input is valid.
+     * @param input The user input
+     * @return True if valid and false otherwise.
+     */
     private boolean validateInput(String input) {
         // Check if empty
         if(input.equals("")) return false;
@@ -51,6 +72,12 @@ public class AddScorePopup {
         return true;
     }
 
+    /**
+     * Displays the feedback boxes on a successful insertion or a fail.
+     * @param input The player's input.
+     * @param score The player's score.
+     * @return True if the database insertion was successful and false otherwise.
+     */
     private boolean showFeedback(String input, int score) {
         boolean success = DatabaseHandler.insertScore(input, score);
 
