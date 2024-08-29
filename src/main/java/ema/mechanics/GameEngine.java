@@ -1,5 +1,8 @@
 package ema.mechanics;
 
+/**
+ * Handles the creation and loading of a game instance.
+ */
 public abstract class GameEngine implements Restartable{
     /**
      * Initilise the game objects and components.

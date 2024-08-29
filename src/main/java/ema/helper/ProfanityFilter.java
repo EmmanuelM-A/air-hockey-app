@@ -10,13 +10,24 @@ import java.util.Set;
  * This class implements a profanity filter.
  */
 public class ProfanityFilter {
+    /**
+     * A set containg a list of inappropriate words
+     */
     private Set<String> inappropriateWords;
 
+    /**
+     * Creates an instance of the ProfanityFilter with the given data loaded from a file.
+     * @param filename The file containing the inapporiate words.
+     */
     public ProfanityFilter(String filename) {
         this.inappropriateWords = new HashSet<>();
         loadFile(filename);
     }
 
+    /**
+     * Loads the innappropriate words into a set for use later.
+     * @param filename The file containing the data.
+     */
     private void loadFile(String filename) {
         try (
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -30,6 +41,11 @@ public class ProfanityFilter {
         }
     }
 
+    /**
+     * Checks the inputted text against the data.
+     * @param input The text input
+     * @return True if no inappropriate words have been found and false otherwise.
+     */
     public boolean checkInput(String input) {
         String[] words = input.toLowerCase().split("\\s+");
         for (String word : words) {

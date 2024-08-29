@@ -6,7 +6,7 @@ import ema.components.Paddle;
 import ema.components.Puck;
 
 /**
- * This class handles the physics within the game.
+ * This class handles the physics and collisions within the game.
  */
 public class PhysicsEngine {
     /**

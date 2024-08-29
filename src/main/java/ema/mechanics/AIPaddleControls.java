@@ -9,7 +9,15 @@ import ema.components.Paddle;
 import ema.components.Puck;
 import ema.ui.game.singlePlayer.SinglePlayerGame;
 
+/**
+ * This class handles the physcis of the AI paddle controller in the game.
+ */
 public class AIPaddleControls {
+    /**
+     * Moves AI Paddle in the game panel.
+     * @param paddle The AI's paddle object
+     * @param playableArea The game panel where the game components are added.
+     */
     public static void movePaddle(AIPaddle paddle, JPanel playableArea) {
         if (!paddle.getIsPaddleDisabled()) {
             // Get the current location of the paddle
@@ -62,6 +70,11 @@ public class AIPaddleControls {
         }
     }
 
+    /**
+     * Predicts the pucks location. 
+     * @param paddle The AI's paddle object.
+     * @return The location the puck after collision
+     */
     private static Point predictPuckPosition(AIPaddle paddle) {
         Point puckLocation = Puck.instance.getLocation();
 
@@ -81,7 +94,13 @@ public class AIPaddleControls {
         return new Point(paddle.getLocation().x, predictedY);
     }
 
-    // Method to approach a target value gradually
+    /**
+     * Calculates a velocity at which the paddle can approach the target's location gradually
+     * @param current The current paddle's location.
+     * @param target The target's location.
+     * @param velocity The current paddle's velocity
+     * @return The calculated approach velocity.
+     */
     private static int approach(int current, int target, int velocity) {
         if (current < target) {
             return Math.min(current + velocity, target);

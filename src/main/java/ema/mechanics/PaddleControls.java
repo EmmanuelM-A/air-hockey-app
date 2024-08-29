@@ -9,7 +9,16 @@ import javax.swing.JPanel;
 
 import ema.components.Paddle;
 
+/**
+ * This class handles the movement controls for the user's paddle.
+ */
 public class PaddleControls {
+    /**
+     * Moves the paddle using the keyboard keys.
+     * @param paddle The paddle object.
+     * @param pressedKeys The set of keys the user presses to move the paddle.
+     * @param playableArea The game panel where the game components are added.
+     */
     public static void movePaddle(Paddle paddle, Set<Integer> pressedKeys, JPanel playableArea) {
         if(paddle.getIsPaddleDisabled() == false) {
             // Get the x and y values of the paddle        
@@ -40,6 +49,12 @@ public class PaddleControls {
         }
     }
 
+    /**
+     * Moves the user paddle using the mouse.
+     * @param e The mouse event.
+     * @param player The user's paddle object.
+     * @param playableArea The game panel where game componets are added.
+     */
     public static void movePaddleWithMouse(MouseEvent e, Paddle player, JPanel playableArea) {
         if(!player.getIsPaddleDisabled()) {
             // Get the location of the mouse when on the playable area
@@ -50,6 +65,7 @@ public class PaddleControls {
             int paddleX = Math.max(player.getRegionBounds()[0], Math.min(mouseX, player.getRegionBounds()[1] - Paddle.DIAMETER));
             int paddleY = Math.max(player.getRegionBounds()[2], Math.min(mouseY, player.getRegionBounds()[3] - Paddle.DIAMETER));
             
+            // Set and repaint the paddle's new location
             player.setLocation(new Point(paddleX, paddleY));
             player.repaint();
             playableArea.repaint();

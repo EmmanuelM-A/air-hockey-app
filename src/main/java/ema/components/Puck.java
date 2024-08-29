@@ -173,6 +173,11 @@ public class Puck extends JPanel {
         this.setLocation(new Point(x, y));
     }
 
+    /**
+     * Determines if a collision between the puck and the given paddle has occured.
+     * @param paddle The paddle object.
+     * @return True if collison detected and false otherwise.
+     */
     public boolean collides(Paddle paddle) {
         Point paddleLocation = paddle.getLocation();
         Point puckLocation = this.getLocation();
@@ -188,6 +193,10 @@ public class Puck extends JPanel {
         return distance < radiusSum;
     }
 
+    /**
+     * Handles collisions between the puck and the given paddle.
+     * @param paddle The paddle in the game panel
+     */
     public void handleCollsions(Paddle paddle) {
         if(collides(paddle)) {
             double[] newPuckVelocity = PhysicsEngine.collisions(paddle);
@@ -200,6 +209,13 @@ public class Puck extends JPanel {
         }
     }
 
+    /**
+     * Handles collisions between the walls and the puck.
+     * @param right The right boundary of the game panel.
+     * @param top The top boundary of the game panel.
+     * @param bottom The bottom boundary of the game panel.
+     * @param left The left boundary of the game panel.
+     */
     public void handleWallCollisions(int right, int top, int bottom, int left) {
         // Checks for collision with the top wall
         if (location.y <= top) {
@@ -227,6 +243,11 @@ public class Puck extends JPanel {
         }
     }
 
+    /**
+     * Detects if the puck has entered the goal.
+     * @param goal The goal object.
+     * @return True if goal dected and false otherwise.
+     */
     public boolean goalDetected(Goal goal) {
         // Get the puck and goal boundaries
         Rectangle puckBounds = new Rectangle(location.x, location.y, DIAMETER, DIAMETER);
@@ -236,11 +257,19 @@ public class Puck extends JPanel {
         return puckBounds.intersects(goalBounds);
     }
 
+    /**
+     * Draws the puck object onto the game panel.
+     * @param g The parent container's graphic instance
+     */
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillOval(location.x, location.y, DIAMETER, DIAMETER);
     }
 
+    /**
+     * Determines whether or not the puck is stationary or not.
+     * @return True if stationary and false otherwise.
+     */
     public boolean isStationary() {
         if(yVelocity == 0.0 && xVelocity == 0.0) {
             return true;
